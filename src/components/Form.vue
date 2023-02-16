@@ -7,7 +7,12 @@
       class="w-5/6 m-5"
     />
     <div class="flex justify-center items-center">
-      <button @click="search" class="bg-violet-300 text-slate-100">
+      <button
+        @click="search"
+        name="data"
+        type="button"
+        class="bg-violet-300 text-slate-100"
+      >
         Search
       </button>
     </div>
@@ -15,7 +20,13 @@
 </template>
 
 <script lang="ts">
+import MovieService from "../service/movieService";
+
 export default {
+  mounted() {
+    const res = MovieService.getMovies(this.value);
+    console.log(res);
+  },
   data() {
     return {
       value: "",
@@ -23,7 +34,8 @@ export default {
   },
   methods: {
     search() {
-      alert("searching " + this.value);
+      const res = MovieService.getMovies(this.value);
+      console.log(res);
     },
   },
 };
