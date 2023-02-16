@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { Movie } from "../types";
 
 const api = "https://api.themoviedb.org/3";
-const key = "d83203734d061b0f64469720c31cfcfe";
+const key = import.meta.env.VITE_API_KEY;
 
 const getMovie = (movieID: string) =>
   axios.get(`${api}/movie/${movieID}?api_key=${key}`);

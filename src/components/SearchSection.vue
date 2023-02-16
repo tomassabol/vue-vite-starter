@@ -50,7 +50,6 @@ import { Movie } from "../types";
 export default {
   mounted() {
     // onload
-    console.log(this.url + "/xySCWwZVuU03xOsJfs1Qk8yG2DF.jpg");
   },
   data() {
     return {
