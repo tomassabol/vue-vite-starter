@@ -6,7 +6,7 @@
   <RouterView></RouterView>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // TODO: Switch to composition API
 // SCRIPT 'SETUP' MEANS YOU WILL BE USING THE 'COMPOSITION API' WHICH IS NEW IN VUE 3, INSTEAD OF THE OLD 'OPTIONS API'.
 // It is also the most TypeScript-friendly way to write Vue components
