@@ -1,8 +1,11 @@
 <template>
-  <section class="h-screen">
+  <section class="h-screen w-screen">
     <div id="form-container" class="flex justify-center items-center h-5/6">
-      <div class="column">
-        <h2 class="text-center">browse all the movies</h2>
+      <div class="column w-3/6">
+        <h2 class="text-center text-3xl">
+          dive into the cinematic universe: discover every detail about any
+          movie you can imagine.
+        </h2>
         <br />
         <form class="">
           <input

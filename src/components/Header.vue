@@ -8,7 +8,7 @@
           <router-link to="/">Home</router-link>
         </li>
         <li class="mx-5 font-semibold">
-          <router-link to="/">My Favorite</router-link>
+          <router-link to="/favorites">My Favorite</router-link>
         </li>
       </ul>
     </nav>
