@@ -33,7 +33,7 @@
       :style="`background-image: url(${
         url + movie.backdrop_path
       }); background-size: cover; background-position: center;`"
-      @click="() => $router.push(`/movie/${movie.id}`)"
+      @click="router(movie.id)"
     >
       <div class="w-full text-black bg-white pl-4 pt-1 pb-1">
         <h3 class="drop-shadow">{{ movie.title }}</h3>
@@ -44,8 +44,9 @@
 </template>
 
 <script lang="ts">
+import router from "../router";
 import MovieService from "../service/movieService";
-import { Movie } from "../types";
+import { MovieSearch } from "../types";
 
 export default {
   mounted() {
@@ -54,7 +55,7 @@ export default {
   data() {
     return {
       searchWord: "",
-      searchResult: null as Movie[] | null,
+      searchResult: null as MovieSearch[] | null,
       url: "https://image.tmdb.org/t/p/w500",
     };
   },
@@ -69,6 +70,12 @@ export default {
     scroll() {
       const resultSecition = document.getElementById("result-section");
       resultSecition?.scrollIntoView({ behavior: "smooth" });
+    },
+    router(id: number) {
+      router.push({
+        name: "movie",
+        params: { id: id },
+      });
     },
   },
 };

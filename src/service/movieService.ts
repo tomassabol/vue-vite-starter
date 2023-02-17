@@ -2,11 +2,11 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { Movie } from "../types";
 
-const api = "https://api.themoviedb.org/3";
+const api = import.meta.env.VITE_API_ENDPOINT;
 const key = import.meta.env.VITE_API_KEY;
 
-const getMovie = (movieID: string) =>
-  axios.get(`${api}/movie/${movieID}?api_key=${key}`);
+const getMovie = (movieID: number) =>
+  axios.get<Movie>(`${api}/movie/${movieID}?api_key=${key}`);
 
 const getMovies = (searchWord: string) =>
   axios.get(

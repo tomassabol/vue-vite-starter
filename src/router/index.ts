@@ -6,13 +6,13 @@ const routes: Array<RouteRecordRaw> = [
   // https://router.vuejs.org/guide/essentials/named-routes.html
   {
     path: "/",
-    name: "Header",
+    name: "home",
     component: () => import("../views/HomeView.vue"),
   },
   // Your next route(s) here...
   {
     path: "/movie/:id",
-    name: "Movie",
+    name: "movie",
     component: () => import("../views/MovieView.vue"),
   },
 ];
