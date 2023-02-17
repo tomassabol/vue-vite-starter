@@ -8,12 +8,12 @@
       }); background-size: cover; background-position: center;`"
     />
     <div id="heading-wrapper" class="flex items-center justify-around h-60">
-      <div id="text-wrapper" class="flex flex-col p-10">
+      <div id="text-wrapper" class="flex flex-col p-10 w-1/2">
         <h1 class="font-bold">
           {{ movie.title }}
         </h1>
-        <div class="ml-2">
-          <p>{{ movie.release_date }}</p>
+        <div class="ml-1">
+          <p>{{ release_year }}</p>
           <p>{{ movie.tagline }}</p>
         </div>
       </div>
@@ -33,26 +33,36 @@
       </div>
     </div>
   </section>
-  <p>{{ movie.homepage }}</p>
-  <br />
-  <p>genres:</p>
-  <div v-for="genre in movie.genres">
-    <p>{{ genre.name }}</p>
-  </div>
-  <br />
-  <p>{{ movie.overview }}</p>
-  <p>adult: {{ movie.adult }}</p>
-  <p>time: {{ movie.runtime }}min</p>
-  <p>budget: {{ movie.budget }}$</p>
-  <p>revenue: {{ movie.revenue }}$</p>
-  <p>vote: {{ movie.vote_average }}/10</p>
-  <br />
-  <p>production companies:</p>
-  <div v-for="company in movie.production_companies">
-    <div id="company">
-      {{ company.name }}
+  <section class="mx-40 h-full mb-40">
+    <a :href="movie.homepage" target="_blank"> {{ movie.homepage }}</a>
+    <br />
+    <br />
+    <p>lenth: {{ movie.runtime }} min</p>
+    <br />
+    <p>reviews: {{ reviews }}/10</p>
+    <br />
+    <div id="genre-wrapper" class="flex items-center">
+      <p>genres:</p>
+      <div v-for="genre in movie.genres" class="flex mx-10">
+        <p class="font-semibold">{{ genre.name }}</p>
+      </div>
     </div>
-  </div>
+    <br />
+    <p class="font-semibold text-2xl">Overview</p>
+    <p class="w-5/6">{{ movie.overview }}</p>
+    <br />
+    <div id="prod-companies" class="flex">
+      <p>production companies:</p>
+      <div>
+        <li v-for="company in movie.production_companies" class="ml-5">
+          {{ company.name }}
+        </li>
+      </div>
+    </div>
+    <br />
+    <p>budget: {{ movie.budget }}$</p>
+    <p>revenue: {{ movie.revenue }}$</p>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -61,20 +71,26 @@ import { useRoute } from "vue-router";
 import Header from "../components/Header.vue";
 import MovieService from "../service/movieService";
 import { Movie } from "../types";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 import router from "../router";
 
 const movie = ref({} as Movie);
 const url = import.meta.env.VITE_IMG_ENDPOINT;
+
+// was getting an error when using substring in the template
+// so that's why I'm using these vars
+var reviews = "";
+var release_year = "";
 
 onMounted(async () => {
   const id = Number(useRoute().params.id);
   const res = await MovieService.getMovie(id);
   const data = res.data as Movie;
   movie.value = data;
-  console.log(movie.value);
+
+  // bind vars
+  reviews = movie.value.vote_average.toString().substring(0, 3);
+  release_year = movie.value.release_date.substring(0, 4);
 });
 
 /**

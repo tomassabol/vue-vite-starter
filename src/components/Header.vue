@@ -1,19 +1,20 @@
 <template>
   <div class="flex items-center justify-around h-20 bg-violet-100">
-    <h1>movies</h1>
+    <h1 class="text-4xl font-bold">movieApp</h1>
 
     <nav>
       <ul class="flex">
-        <li class="mx-5"><router-link to="/">Home</router-link></li>
-        <li class="mx-5"><router-link to="/">Movies</router-link></li>
-        <li class="mx-5"><router-link to="/">About</router-link></li>
+        <li class="mx-5 font-semibold">
+          <router-link to="/">Home</router-link>
+        </li>
+        <li class="mx-5 font-semibold">
+          <router-link to="/">My Favorite</router-link>
+        </li>
       </ul>
     </nav>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>
