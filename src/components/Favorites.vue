@@ -1,6 +1,8 @@
 <template>
-  <section class="w-screen h-full">
-    <Header />
+  <div class="flex h-36 justify-center items-center">
+    <h2 class="font-bold text-5xl">my favorites</h2>
+  </div>
+  <section v-if="movies.length">
     <div
       v-if="movies.length === 0"
       class="flex w-screen h-screen justify-center items-center pb-20"
@@ -10,17 +12,37 @@
         order to be displayed on tis page
       </p>
     </div>
-    <div v-else></div>
+    <div v-else class="flex flex-wrap justify-evenly">
+      <div
+        v-for="movie in movies"
+        class="flex-1 flex w-full h-80 drop-shadow-2xl cursor-pointer m-4 items-end"
+        :style="`background-image: url(${
+          url + movie.backdrop_path
+        }); background-size: cover; background-position: center;`"
+        @click="redirect(movie.id)"
+      >
+        <div
+          class="flex flex-col w-80 pl-4 pb-4 text-black drop-shadow-pb bg-white"
+        >
+          <h2 class="text-2xl font-semibold drop-shadow-xl">
+            {{ movie.title }}
+          </h2>
+          <p class="drop-shadow-xl">{{ movie.release_date.substring(0, 4) }}</p>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import MovieService from "../service/movieService";
 import { Movie } from "../types";
-import Header from "./Header.vue";
 
-var movies = ref([] as Movie[]);
+let movies = ref([] as Movie[]);
+const url = import.meta.env.VITE_IMG_ENDPOINT;
+const router = useRouter();
 
 onMounted(() => {
   getMovies();
@@ -47,6 +69,13 @@ async function getMovies() {
     movieArray.push(data);
   }
   movies.value = movieArray;
+}
+
+function redirect(id: number) {
+  router.push({
+    name: "movie",
+    params: { id: id },
+  });
 }
 </script>
 
