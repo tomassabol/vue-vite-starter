@@ -1,5 +1,17 @@
 <template>
-  <Header />
+  <section class="w-screen h-full">
+    <Header />
+    <div
+      v-if="movies.length === 0"
+      class="flex w-screen h-screen justify-center items-center pb-20"
+    >
+      <p>
+        your favorite list is empty. select some movies as your favorite, in
+        order to be displayed on tis page
+      </p>
+    </div>
+    <div v-else></div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -35,7 +47,6 @@ async function getMovies() {
     movieArray.push(data);
   }
   movies.value = movieArray;
-  console.log(movies.value);
 }
 </script>
 
