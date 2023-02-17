@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/HomeView.vue"),
   },
   // Your next route(s) here...
+  {
+    path: "/movie/:id",
+    name: "Movie",
+    component: () => import("../views/MovieView.vue"),
+  },
 ];
 
 const router = createRouter({
