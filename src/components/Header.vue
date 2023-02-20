@@ -1,6 +1,8 @@
 <template>
   <div class="flex items-center justify-around h-20 bg-violet-100">
-    <h1 class="text-4xl font-bold">movieApp</h1>
+    <h1 class="text-4xl font-bold">
+      <router-link to="/">movieApp</router-link>
+    </h1>
 
     <nav>
       <ul class="flex">

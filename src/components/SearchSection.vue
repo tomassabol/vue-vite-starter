@@ -12,7 +12,7 @@
             type="text"
             placeholder="Search for a movie"
             v-model="searchWord"
-            class="w-full mb-3 drop-shadow-md border-2 border-violet-300 rounded-lg p-1"
+            class="w-full mb-3 drop-shadow-md border-2 border-violet-300 rounded-lg p-1 text-center"
           />
           <div class="flex justify-center items-center">
             <button
@@ -28,60 +28,50 @@
       </div>
     </div>
   </section>
-  <section v-if="searchResult" class="md: flexbox lg: flex" id="result-section">
-    <div
-      v-for="movie in searchResult"
-      :id="movie.id.toString()"
-      class="flex w-screen h-80 items-end drop-shadow-2xl cursor-pointer justify-between m-4"
-      :style="`background-image: url(${
-        url + movie.backdrop_path
-      }); background-size: cover; background-position: center;`"
-      @click="router(movie.id)"
-    >
-      <div class="w-full text-black bg-white pl-4 pt-1 pb-1">
-        <h3 class="drop-shadow">{{ movie.title }}</h3>
-        <p>{{ movie.release_date.slice(0, 4) }}</p>
+  <section id="result-section">
+    <div class="flex flex-wrap justify-center">
+      <div
+        v-for="movie in movies"
+        :key="movie.id"
+        class="flex flex-col items-center m-5 drop-shadow-lg"
+      >
+        <router-link :to="'/movie/' + movie.id">
+          <div>
+            <img
+              :src="url + movie.poster_path"
+              class="w-60 h-80 drop-shadow-md"
+            />
+            <h2 class="w-60 text-2xl font-bold text-left">
+              {{ movie.title }}
+            </h2>
+            <p>{{ movie.release_date.slice(0, 4) }}</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </section>
 </template>
 
-<script lang="ts">
-import router from "../router";
+<script setup lang="ts">
+import { ref } from "vue";
 import MovieService from "../service/movieService";
 import { MovieSearch } from "../types";
 
-export default {
-  mounted() {
-    // onload
-  },
-  data() {
-    return {
-      searchWord: "",
-      searchResult: null as MovieSearch[] | null,
-      url: "https://image.tmdb.org/t/p/w500",
-    };
-  },
-  methods: {
-    async search() {
-      const res = await MovieService.getMovies(this.searchWord);
-      const data = res.data;
-      // get first 3 results
-      this.searchResult = data.results.slice(0, 3);
-      this.scroll();
-    },
-    scroll() {
-      const resultSecition = document.getElementById("result-section");
-      resultSecition?.scrollIntoView({ behavior: "smooth" });
-    },
-    router(id: number) {
-      router.push({
-        name: "movie",
-        params: { id: id },
-      });
-    },
-  },
-};
+const searchWord = ref("");
+let movies = ref([] as MovieSearch[]);
+const url = import.meta.env.VITE_IMG_ENDPOINT;
+
+async function search() {
+  const res = await MovieService.getMovies(searchWord.value);
+  const data = res.data;
+  movies.value = data.results.slice(0, 3);
+  scroll();
+}
+
+function scroll() {
+  const resultSecition = document.getElementById("result-section");
+  resultSecition?.scrollIntoView({ behavior: "smooth" });
+}
 </script>
 
 <style scoped></style>

@@ -2,13 +2,13 @@
   <section class="w-screen h-screen">
     <Header />
     <div
-      class="h-4/6 drop-shadow-2xl"
+      class="h-4/6 drop-shadow-lg"
       :style="`background-image: url(${
-        url + movie.backdrop_path
+        url + movie.poster_path
       }); background-size: cover; background-position: center;`"
     />
     <div id="heading-wrapper" class="flex items-center justify-around h-60">
-      <div id="text-wrapper" class="flex flex-col p-10 w-1/2">
+      <div id="text-wrapper" class="flex flex-col p-10 w-2/3">
         <h1 class="font-bold">
           {{ movie.title }}
         </h1>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div id="btn-wrapper">
-        <button @click="favorite()" class="bg-red-100 h-full w-full">
+        <button @click="handleClick()" class="bg-red-100 h-full w-full">
           <font-awesome-icon
             v-if="isInSessionStorage()"
             icon="fa-solid fa-heart-circle-check"
@@ -33,18 +33,20 @@
       </div>
     </div>
   </section>
-  <section class="mx-40 h-full mb-40">
+  <section class="mx-40 h-full mb-40 mt-20">
     <a :href="movie.homepage" target="_blank"> {{ movie.homepage }}</a>
     <br />
     <br />
-    <p>lenth: {{ movie.runtime }} min</p>
+    <p>length: {{ movie.runtime }} min</p>
     <br />
     <p>reviews: {{ reviews }}/10</p>
     <br />
-    <div id="genre-wrapper" class="flex items-center">
+    <div id="genres" class="flex">
       <p>genres:</p>
-      <div v-for="genre in movie.genres" class="flex mx-10">
-        <p class="font-semibold">{{ genre.name }}</p>
+      <div>
+        <li v-for="genre in movie.genres" class="ml-5 font-semibold">
+          {{ genre.name }}
+        </li>
       </div>
     </div>
     <br />
@@ -96,11 +98,9 @@ onMounted(async () => {
 /**
  * add movie to favorite
  */
-function favorite() {
+function add() {
   // fetch the array from session storage
-  const array: number[] = JSON.parse(
-    sessionStorage.getItem("favorite") || "[]"
-  );
+  const array: number[] = fetchSessionStorage();
   // check if the movie is already in the array
   if (isInSessionStorage()) {
     return;
@@ -110,7 +110,25 @@ function favorite() {
   // save the array to session storage
   sessionStorage.setItem("favorite", JSON.stringify(array));
   window.location.reload();
-  router.push(useRoute());
+}
+
+function remove() {
+  // fetch the array from session storage
+  const array: number[] = fetchSessionStorage();
+  // check if the movie is already in the array
+  if (!isInSessionStorage()) {
+    return;
+  }
+
+  if (!confirm("Are you sure you want to remove this movie?")) {
+    return;
+  }
+  // remove the movie id from the array
+  const index = array.indexOf(movie.value.id);
+  array.splice(index, 1);
+  // save the array to session storage
+  sessionStorage.setItem("favorite", JSON.stringify(array));
+  window.location.reload();
 }
 
 function isInSessionStorage(): boolean {
@@ -118,6 +136,18 @@ function isInSessionStorage(): boolean {
     sessionStorage.getItem("favorite") || "[]"
   );
   return array.includes(movie.value.id);
+}
+
+function fetchSessionStorage(): number[] {
+  return JSON.parse(sessionStorage.getItem("favorite") || "[]");
+}
+
+function handleClick() {
+  if (isInSessionStorage()) {
+    remove();
+  } else {
+    add();
+  }
 }
 </script>
 

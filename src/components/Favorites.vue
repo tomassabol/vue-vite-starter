@@ -12,23 +12,24 @@
         order to be displayed on tis page
       </p>
     </div>
-    <div v-else class="flex flex-wrap justify-evenly">
+    <div v-else class="flex flex-wrap justify-center drop-shadow-lg">
       <div
         v-for="movie in movies"
-        class="flex-1 flex w-full h-80 drop-shadow-2xl cursor-pointer m-4 items-end"
-        :style="`background-image: url(${
-          url + movie.backdrop_path
-        }); background-size: cover; background-position: center;`"
-        @click="redirect(movie.id)"
+        :key="movie.id"
+        class="flex flex-col items-center m-5"
       >
-        <div
-          class="flex flex-col w-80 pl-4 pb-4 text-black drop-shadow-pb bg-white"
-        >
-          <h2 class="text-2xl font-semibold drop-shadow-xl">
-            {{ movie.title }}
-          </h2>
-          <p class="drop-shadow-xl">{{ movie.release_date.substring(0, 4) }}</p>
-        </div>
+        <router-link :to="'/movie/' + movie.id">
+          <div>
+            <img
+              :src="url + movie.poster_path"
+              class="w-60 h-80 drop-shadow-md"
+            />
+            <h2 class="w-60 text-2xl font-bold text-left">
+              {{ movie.title }}
+            </h2>
+            <p>{{ movie.release_date.slice(0, 4) }}</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </section>
