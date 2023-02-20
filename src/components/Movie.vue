@@ -74,7 +74,6 @@ import Header from "../components/Header.vue";
 import MovieService from "../service/movieService";
 import { Movie } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import router from "../router";
 
 const movie = ref({} as Movie);
 const url = import.meta.env.VITE_IMG_ENDPOINT;

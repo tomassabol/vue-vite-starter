@@ -1,5 +1,4 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import { Movie } from "../types";
 
 const api = import.meta.env.VITE_API_ENDPOINT;
